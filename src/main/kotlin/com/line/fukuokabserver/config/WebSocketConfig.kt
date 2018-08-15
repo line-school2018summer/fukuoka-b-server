@@ -14,6 +14,7 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
         config.setApplicationDestinationPrefixes("/app")
     }
 
+    // used by new SockJS() etc
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
         registry.addEndpoint("/chat")
         registry.addEndpoint("/chat").withSockJS()

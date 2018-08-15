@@ -1,7 +1,7 @@
 package com.line.fukuokabserver.controller
 
-import com.line.fukuokabserver.model.MessageOut
-import com.line.fukuokabserver.model.MessageTest
+import com.line.fukuokabserver.entity.MessageOut
+import com.line.fukuokabserver.entity.MessageTest
 import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo

@@ -34,37 +34,44 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 {"id":1,"name":"Atsushi Kimura","email":"akimura@potkitchen.com","created_at":"2018-08-08T00:00:00.000+0000","updated_at":"2018-08-08T00:00:00.000+0000"}
 ```
 
-## APIリファレンス
+## WebSocket EndPoint リファレンス
 
-### GET `/user`
+### STOMP Endpoint `/chat`
+### Application Destination Prefixes `/app`
+### `/hello`
 > 動作確認用
 
-#### Request
-
-#### Response
+#### Request `MessageTest`
+| Parameter | Type | Description |
+| -------- | -------- | -------- |
+| from | String |  |
+| text | String |  |
+#### Response `MessageOut`
 
 | Parameter | Type | Description |
 | -------- | -------- | -------- |
-| greeting | String | Hello World! |
+| from | String |  |
+| text | String | Hello, World |
+| time | String | empty string |
 
-### GET `/user/{id}/profile`
-> ユーザ情報取得
+### `/chat.{channelId}`
+> 特定のチャンネルにメッセージを送る
 
-#### Request
+#### Request `MessageTest`
+| Parameter | Type | Description |
+| -------- | -------- | -------- |
+| from | String |  |
+| text | String |  |
+#### Response `MessageOut`
 
 | Parameter | Type | Description |
 | -------- | -------- | -------- |
-| id | String | |
+| from | String |  |
+| text | String | |
+| time | String |  |
 
-#### Response
 
-| Parameter | Type | Description |
-| -------- | -------- | -------- |
-| id | String | |
-| name | String | |
-| email | String | |
-| created_at | Date | |
-| updated_at | Date | |
+## REST API
 
 ### POST `/user/search`
 > ユーザ名検索

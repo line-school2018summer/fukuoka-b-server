@@ -1,4 +1,4 @@
-package com.line.fukuokabserver.model
+package com.line.fukuokabserver.entity
 
 import java.sql.Timestamp
 
