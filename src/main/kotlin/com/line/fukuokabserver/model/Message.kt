@@ -6,6 +6,6 @@ data class Message(
         var id: Long,
         var senderId: Long,
         var recipientId: Long,
-        var text: String
-//        var sendAt: Timestamp
+        var text: String,
+        var sendAt: Timestamp
 )

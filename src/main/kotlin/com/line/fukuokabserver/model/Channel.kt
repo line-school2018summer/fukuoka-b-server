@@ -1,4 +1,6 @@
 package com.line.fukuokabserver.model
 
-class Channel {
-}
+data class Channel (
+        var id: Long,
+        var users: List<User>
+)

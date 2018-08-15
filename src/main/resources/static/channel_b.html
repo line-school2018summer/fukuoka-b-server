@@ -20,7 +20,7 @@
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/hello', function(messageOutput) {
+                stompClient.subscribe('/topic/chat.b', function(messageOutput) {
                     showMessageOutput(JSON.parse(messageOutput.body));
                 });
             });
@@ -37,7 +37,7 @@
         function sendMessage() {
             var from = document.getElementById('from').value;
             var text = document.getElementById('text').value;
-            stompClient.send("/app/chat", {},
+            stompClient.send("/app/chat.b", {},
                 JSON.stringify({'from':from, 'text':text}));
         }
 
