@@ -1,4 +1,8 @@
 package com.line.fukuokabserver.dto
 
-class UserDTO {
-}
+data class UserDTO (
+        var Id: Long,
+        var userId: String,
+        var userName: String,
+        var email: String
+)

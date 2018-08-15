@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class UserDAO (private val userMapper: UserMapper): IUserDAO {
 
-    override fun getUser(userId: Long): UserDTO? {
+    override fun getUser(userId: Long): UserDTO {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
