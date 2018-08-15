@@ -49,6 +49,7 @@ ext {
 }
 
 dependencies {
+	compile('org.springframework.boot:spring-boot-starter-websocket')
 	compile('de.codecentric:spring-boot-admin-starter-server')
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
