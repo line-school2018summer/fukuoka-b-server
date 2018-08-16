@@ -1,5 +1,7 @@
 package com.line.fukuokabserver.service
 
-interface IMessageDAO {
+import com.line.fukuokabserver.dto.MessageDTO
 
+interface IMessageDAO {
+    fun addMessage(message: MessageDTO)
 }
