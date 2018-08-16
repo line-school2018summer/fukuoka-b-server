@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service
 class UserDAO (private val userMapper: UserMapper): IUserDAO {
 
     override fun getUser(userId: Long): UserDTO {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return userMapper.findByUserId(userId)
     }
 
     override fun getFriendList(userId: Long): List<String> {
