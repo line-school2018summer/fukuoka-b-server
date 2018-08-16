@@ -1,4 +1,11 @@
 package com.line.fukuokabserver.dto
 
-class MessageDTO {
-}
+import java.sql.Timestamp
+
+data class MessageDTO (
+        var id: Long?,
+        var senderId: Long,
+        var roomId: Long,
+        var text: String,
+        var sendAt: Timestamp?
+)

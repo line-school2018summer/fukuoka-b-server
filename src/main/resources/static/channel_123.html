@@ -20,7 +20,7 @@
             stompClient.connect({}, function(frame) {
                 setConnected(true);
                 console.log('Connected: ' + frame);
-                stompClient.subscribe('/topic/chat.a', function(messageOutput) {
+                stompClient.subscribe('/topic/chat.123', function(messageOutput) {
                     showMessageOutput(JSON.parse(messageOutput.body));
                 });
             });
@@ -37,16 +37,16 @@
         function sendMessage() {
             var from = document.getElementById('from').value;
             var text = document.getElementById('text').value;
-            stompClient.send("/app/chat.a", {},
-                JSON.stringify({'from':from, 'text':text}));
+            stompClient.send("/app/chat.123", {},
+                JSON.stringify({'senderId':from, 'roomId':'123','text':text}));
         }
 
         function showMessageOutput(messageOutput) {
             var response = document.getElementById('response');
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
-            p.appendChild(document.createTextNode(messageOutput.from + ": "
-                + messageOutput.text + " (" + messageOutput.time + ")"));
+            p.appendChild(document.createTextNode(messageOutput.senderId + ": "
+                + messageOutput.text + " (" + messageOutput.sendAt + ")"));
             response.appendChild(p);
         }
     </script>
