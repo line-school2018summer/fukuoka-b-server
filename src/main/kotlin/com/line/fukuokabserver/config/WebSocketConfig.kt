@@ -16,7 +16,7 @@ class WebSocketConfig : WebSocketMessageBrokerConfigurer {
 
     // used by new SockJS() etc
     override fun registerStompEndpoints(registry: StompEndpointRegistry) {
-        registry.addEndpoint("/chat")
-        registry.addEndpoint("/chat").withSockJS()
+        registry.addEndpoint("/chat").setAllowedOrigins("*")
+        registry.addEndpoint("/chat").setAllowedOrigins("*").withSockJS()
     }
 }
