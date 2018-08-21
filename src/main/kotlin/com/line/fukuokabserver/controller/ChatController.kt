@@ -41,7 +41,7 @@ class ChatController(private val channelService: ChannelDAO, private val message
     @SendTo("/topic/chat.{channelId}")
     fun sendMessage(@DestinationVariable channelId: String, message: MessageDTO): MessageDTO {
 //        messageService.addMessage(message)
-        var time:Timestamp = Timestamp(Date().time)
+        val time = Timestamp(Date().time)
         message.sendAt = time
         return message
     }

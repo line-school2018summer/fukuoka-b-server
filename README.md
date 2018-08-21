@@ -73,6 +73,35 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 
 ## REST API
 
+### GET `/user`
+> 動作確認用
+
+#### Request
+
+#### Response
+
+| Parameter | Type | Description |
+| -------- | -------- | -------- |
+| greeting | String | Hello World! |
+
+### GET `/user/{id}`
+> ユーザ情報取得
+
+#### Request
+
+| Parameter | Type | Description |
+| -------- | -------- | -------- |
+| id | Long | |
+
+#### Response
+
+| Parameter | Type | Description |
+| -------- | -------- | -------- |
+| Id | Long | |
+| name | String | |
+| user_id | String | |
+| mail | String | |
+
 ### POST `/user/search`
 > ユーザ名検索
 

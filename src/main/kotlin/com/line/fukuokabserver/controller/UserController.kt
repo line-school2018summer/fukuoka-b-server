@@ -26,10 +26,10 @@ class UserController(private val userService: UserDAO) {
     }
 
     @GetMapping(
-            value = ["/user/{id}/profile"],
+            value = ["/user/{id}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getProfile(@PathVariable("id" ) userId: Long): User {
+    fun getUser(@PathVariable("id" ) userId: Long): User {
         return User(userService.getUser(userId))
     }
 
