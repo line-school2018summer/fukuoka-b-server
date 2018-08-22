@@ -29,8 +29,8 @@ class UserController(private val userService: UserDAO) {
             value = ["/user/{id}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getUser(@PathVariable("id" ) userId: Long): UserDTO {
-        return userService.getUser(userId)
+    fun getUser(@PathVariable("id" ) id: Long): UserDTO {
+        return userService.getUser(id)
     }
 
 //    @PostMapping(

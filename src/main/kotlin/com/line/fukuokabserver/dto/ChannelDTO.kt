@@ -1,7 +1,6 @@
 package com.line.fukuokabserver.dto
 
-class ChannelDTO (
+data class ChannelDTO (
         var id: Long?,
-        var name: String,
-        var userIds: List<Long>
+        var name: String
 )
