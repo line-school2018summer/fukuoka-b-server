@@ -38,7 +38,7 @@
             var from = document.getElementById('from').value;
             var text = document.getElementById('text').value;
             stompClient.send("/app/chat.123", {},
-                JSON.stringify({'senderId':from, 'roomId':'123','text':text}));
+                JSON.stringify({'senderId':from, 'channelId':'123','content':text}));
         }
 
         function showMessageOutput(messageOutput) {
@@ -46,7 +46,7 @@
             var p = document.createElement('p');
             p.style.wordWrap = 'break-word';
             p.appendChild(document.createTextNode(messageOutput.senderId + ": "
-                + messageOutput.text + " (" + messageOutput.sendAt + ")"));
+                + messageOutput.content + " (" + messageOutput.createdAt + ")"));
             response.appendChild(p);
         }
     </script>

@@ -1,14 +1,23 @@
 package com.line.fukuokabserver.mapper
 
 import com.line.fukuokabserver.dto.MessageDTO
-import org.apache.ibatis.annotations.Insert
-import org.apache.ibatis.annotations.Mapper
-import org.apache.ibatis.annotations.Options
+import org.apache.ibatis.annotations.*
 
 @Mapper
 interface MessageMapper {
-    @Insert("INESRT INTO messages (id, room_id, send_user_id, content, created_at)" +
-            "VALUES (null, #{roomId}, #{senderId}, #{text}, #{sendAt})")
+    @Insert("INSERT INTO messages (channelId, senderId, content, createdAt) " +
+            "VALUES (#{channelId,jdbcType=BIGINT}, #{senderId,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP})")
     @Options(useGeneratedKeys = true)
     fun addMessage(message: MessageDTO)
+
+    @Select()
+    @Results(value = arrayOf(
+            Result(id = true, property = "id", column = "id"),
+            Result(property = "channelId", column = "channelId"),
+            Result(property = "senderId", column = "senderId"),
+            Result(property = "content", column = "content"),
+            Result(property = "createdAt", column = "createdAt")
+    ))
+    fun getMessages(channelId: Long): ArrayList<MessageDTO>
+
 }

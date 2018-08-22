@@ -40,9 +40,9 @@ class ChatController(private val channelService: ChannelDAO, private val message
     @MessageMapping("/chat.{channelId}")
     @SendTo("/topic/chat.{channelId}")
     fun sendMessage(@DestinationVariable channelId: String, message: MessageDTO): MessageDTO {
-//        messageService.addMessage(message)
         val time = Timestamp(Date().time)
-        message.sendAt = time
+        message.createdAt = time
+        messageService.addMessage(message)
         return message
     }
 
