@@ -1,6 +1,6 @@
 package com.line.fukuokabserver.controller
 
-import com.line.fukuokabserver.entity.User
+import com.line.fukuokabserver.dto.UserDTO
 import com.line.fukuokabserver.service.UserDAO
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
@@ -26,13 +26,20 @@ class UserController(private val userService: UserDAO) {
     }
 
     @GetMapping(
-            value = ["/user/{id}/profile"],
+            value = ["/user/{id}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getProfile(@PathVariable("id" ) userId: Long): User {
-        return User(userService.getUser(userId))
+    fun getUser(@PathVariable("id" ) id: Long): UserDTO {
+        return userService.getUser(id)
     }
 
+    @GetMapping(
+            value = ["/user/id/{mail}"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun getUserByMail(@PathVariable("mail") mail:String): UserDTO {
+        return userService.getUserByMail(mail)
+    }
 //    @PostMapping(
 //            value = ["/user/search"],
 //            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]

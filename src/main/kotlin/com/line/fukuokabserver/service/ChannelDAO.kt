@@ -7,13 +7,24 @@ import org.springframework.stereotype.Service
 @Service
 class ChannelDAO (private val channelMapper: ChannelMapper): IChannelDAO {
     override fun addChannel(userIds: List<Long>): ChannelDTO {
-        var channel = ChannelDTO(null, "", userIds)
+        var channel = ChannelDTO(null, "")
         channelMapper.addChannel(channel)
+        userIds.forEach { id ->
+            channelMapper.addChannelAttend(channel.id!!, id)
+        }
         return channel
+    }
+
+    override fun addChannelAttend(channelId: Long, userId: Long) {
+        channelMapper.addChannelAttend(channelId, userId)
     }
 
     override fun getChannel(channelId: Long): ChannelDTO {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getPublicChannel(): List<ChannelDTO> {
+        return channelMapper.getPublicChannelList()
     }
 
     override fun getChannelList(userId: Long): List<ChannelDTO> {

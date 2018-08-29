@@ -1,5 +1,6 @@
 package com.line.fukuokabserver.controller
 
+import com.line.fukuokabserver.dto.ChannelDTO
 import com.line.fukuokabserver.dto.MessageDTO
 import com.line.fukuokabserver.entity.MessageOut
 import com.line.fukuokabserver.entity.MessageTest
@@ -10,6 +11,7 @@ import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
 import org.springframework.messaging.handler.annotation.SendTo
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -40,9 +42,9 @@ class ChatController(private val channelService: ChannelDAO, private val message
     @MessageMapping("/chat.{channelId}")
     @SendTo("/topic/chat.{channelId}")
     fun sendMessage(@DestinationVariable channelId: String, message: MessageDTO): MessageDTO {
-//        messageService.addMessage(message)
-        var time:Timestamp = Timestamp(Date().time)
-        message.sendAt = time
+        val time = Timestamp(Date().time)
+        message.createdAt = time
+        messageService.addMessage(message)
         return message
     }
 
@@ -52,5 +54,13 @@ class ChatController(private val channelService: ChannelDAO, private val message
     )
     fun newChannel(@RequestBody request: PostNewChannel): Long {
         return channelService.addChannel(request.userIds).id!!
+    }
+
+    @GetMapping(
+            value=["/chat/public"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun publicChannel(): List<ChannelDTO> {
+        return channelService.getPublicChannel()
     }
 }
