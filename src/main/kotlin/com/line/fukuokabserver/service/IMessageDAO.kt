@@ -4,4 +4,6 @@ import com.line.fukuokabserver.dto.MessageDTO
 
 interface IMessageDAO {
     fun addMessage(message: MessageDTO)
+
+    fun getChannelMessages(channelId: Long): List<MessageDTO>
 }
