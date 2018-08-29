@@ -43,10 +43,11 @@ class UserController(private val userService: UserDAO) {
 
     @PostMapping(
             value = ["/user/friend/add"],
-            produces = ["text/plain"]
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun addFriend(@RequestBody request: PostAddFriends): Int {
-        return 0
+    fun addFriend(@RequestBody request: PostAddFriends): PostAddFriends {
+        userService.addFriend(request.userId, request.friendId)
+        return request
     }
 //    @PostMapping(
 //            value = ["/user/search"],

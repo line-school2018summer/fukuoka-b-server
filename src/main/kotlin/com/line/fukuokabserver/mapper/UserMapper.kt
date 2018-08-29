@@ -46,7 +46,7 @@ interface UserMapper {
     ))
     fun findByMail(mail: String): UserDTO
 
-    @Insert("INSERT INTO friends (id, friendId) VALUES (#{id}, #{friendId})")
+    @Insert("INSERT INTO friends (userId, friendId) VALUES (#{id}, #{friendId})")
     fun addFriend(id: Long, friendId: Long)
 //    @Select(
 //            """

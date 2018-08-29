@@ -15,6 +15,6 @@ data class PostNewChannel (
 )
 
 data class PostAddFriends (
-        val id1: Long,
-        val id2: Long
+        val userId: Long,
+        val friendId: Long
 )
