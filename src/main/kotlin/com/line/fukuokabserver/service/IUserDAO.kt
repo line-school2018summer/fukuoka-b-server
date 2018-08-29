@@ -7,6 +7,8 @@ interface IUserDAO {
 
     fun getFriendList(userId: Long): List<String>
 
+    fun getUserByMail(mail: String): UserDTO
+
     fun addUser(user: UserDTO)
 
     fun addFriend(id: Long, friendId: Long)

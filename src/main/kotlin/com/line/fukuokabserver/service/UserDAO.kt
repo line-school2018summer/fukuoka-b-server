@@ -6,7 +6,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserDAO (private val userMapper: UserMapper): IUserDAO {
-
+    override fun getUserByMail(mail: String): UserDTO {
+        return userMapper.findByMail(mail)
+    }
 
     override fun getUser(id: Long): UserDTO {
         return userMapper.findById(id)

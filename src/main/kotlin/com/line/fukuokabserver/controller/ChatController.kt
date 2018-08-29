@@ -60,8 +60,7 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value=["/chat/public"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun publicChannel(): Map<String, List<ChannelDTO>> {
-        val channels = channelService.getPublicChannel()
-        return mapOf("results" to channels)
+    fun publicChannel(): List<ChannelDTO> {
+        return channelService.getPublicChannel()
     }
 }

@@ -33,6 +33,13 @@ class UserController(private val userService: UserDAO) {
         return userService.getUser(id)
     }
 
+    @GetMapping(
+            value = ["/user/id/{mail}"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun getUserByMail(@PathVariable("mail") mail:String): UserDTO {
+        return userService.getUserByMail(mail)
+    }
 //    @PostMapping(
 //            value = ["/user/search"],
 //            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]

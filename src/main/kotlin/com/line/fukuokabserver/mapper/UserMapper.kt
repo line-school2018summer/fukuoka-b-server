@@ -37,6 +37,15 @@ interface UserMapper {
     ))
     fun getFriends(id: Long): ArrayList<UserDTO>
 
+    @Select("SELECT id, name, userId, mail FROM users WHERE mail=#{mail}")
+    @Results(value = arrayOf(
+            Result(id = true, property = "id", column = "id"),
+            Result(property = "name", column = "name"),
+            Result(property = "userId", column = "userId"),
+            Result(property = "mail", column = "mail")
+    ))
+    fun findByMail(mail: String): UserDTO
+
     @Insert("INSERT INTO friends (id, friendId) VALUES (#{id}, #{friendId})")
     fun addFriend(id: Long, friendId: Long)
 //    @Select(
