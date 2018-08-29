@@ -127,7 +127,7 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 #### Table `users`
 | Column Name | Type | Description |
 | -------- | -------- | -------- |
-| id | bigint(13) |  |
+| id | bigint(13) | primary |
 | mail | varchar(255) |  |
 | name | varchar(255) |  |
 | userId | varchar(45) | unique |
@@ -135,7 +135,7 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 #### Table `messages`
 | Column Name | Type | Description |
 | -------- | -------- | -------- |
-| id | bigint(13) |  |
+| id | bigint(13) | primary |
 | channelId | bigint(13) |  |
 | senderId | bigint(13) |  |
 | content | varchar(255) |  |
@@ -145,7 +145,7 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 #### Table `channels`
 | Column Name | Type | Description |
 | -------- | -------- | -------- |
-| id | bigint(13) |  |
+| id | bigint(13) | primary |
 | name | varchar(255) |  |
 
 #### Table `channelAttend`
@@ -154,6 +154,11 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 | userId | bigint(13) |  |
 | channelId | bigint(13) |  |
 
+#### Table `friends`
+| Column Name | Type | Description |
+| -------- | -------- | -------- |
+| userId | bigint(13) | primary |
+| friendId | bigint(13) | primary |
 
 
 
