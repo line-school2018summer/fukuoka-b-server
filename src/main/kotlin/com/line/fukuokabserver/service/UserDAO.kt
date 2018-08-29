@@ -14,6 +14,10 @@ class UserDAO (private val userMapper: UserMapper): IUserDAO {
         return userMapper.findById(id)
     }
 
+    fun getUserByUserId(userId: String): UserDTO {
+        return userMapper.findByUserId(userId)
+    }
+
     override fun getFriendList(userId: Long): List<String> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }

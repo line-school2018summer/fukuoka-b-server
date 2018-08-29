@@ -34,6 +34,14 @@ class UserController(private val userService: UserDAO) {
     }
 
     @GetMapping(
+            value = ["/user/userId/{userId}"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun getUserByUserId(@PathVariable("userId" ) userId: String): UserDTO {
+        return userService.getUserByUserId(userId)
+    }
+
+    @GetMapping(
             value = ["/user/id/{mail}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
