@@ -34,6 +34,7 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 {"id":1,"name":"Atsushi Kimura","email":"akimura@potkitchen.com","created_at":"2018-08-08T00:00:00.000+0000","updated_at":"2018-08-08T00:00:00.000+0000"}
 ```
 
+
 ## WebSocket EndPoint リファレンス
 
 ### STOMP Endpoint `/chat`
@@ -118,6 +119,42 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 | results[].id | Long | |
 | results[].name | String | |
 | results[].email | String | |
+
+
+## Database specification
+- 全てNotNull
+- varchar型のCharacter Setは全てutf8mb4
+#### Table `users`
+| Column Name | Type | Description |
+| -------- | -------- | -------- |
+| id | bigint(13) |  |
+| mail | varchar(255) |  |
+| name | varchar(255) |  |
+| userId | varchar(45) | unique |
+
+#### Table `messages`
+| Column Name | Type | Description |
+| -------- | -------- | -------- |
+| id | bigint(13) |  |
+| channelId | bigint(13) |  |
+| senderId | bigint(13) |  |
+| content | varchar(255) |  |
+| isRead | bit(1) |  |
+| createdAt | timestamp |  |
+
+#### Table `channels`
+| Column Name | Type | Description |
+| -------- | -------- | -------- |
+| id | bigint(13) |  |
+| name | varchar(255) |  |
+
+#### Table `channelAttend`
+| Column Name | Type | Description |
+| -------- | -------- | -------- |
+| userId | bigint(13) |  |
+| channelId | bigint(13) |  |
+
+
 
 
 ## サーバセットアップ
