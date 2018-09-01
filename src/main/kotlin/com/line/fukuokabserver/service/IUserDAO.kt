@@ -7,7 +7,7 @@ interface IUserDAO {
 
     fun getUsers(ids: List<Long>): List<UserDTO>
 
-    fun getFriendList(userId: Long): List<String>
+    fun getFriendList(userId: Long): List<UserDTO>
 
     fun getUserByMail(mail: String): UserDTO
 
