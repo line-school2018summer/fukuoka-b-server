@@ -6,6 +6,7 @@ import com.line.fukuokabserver.entity.MessageOut
 import com.line.fukuokabserver.entity.MessageTest
 import com.line.fukuokabserver.service.ChannelDAO
 import com.line.fukuokabserver.service.MessageDAO
+import com.line.fukuokabserver.service.UserDAO
 import org.springframework.http.MediaType
 import org.springframework.messaging.handler.annotation.DestinationVariable
 import org.springframework.messaging.handler.annotation.MessageMapping
@@ -18,7 +19,7 @@ import java.util.*
 
 @Controller
 @RestController
-class ChatController(private val channelService: ChannelDAO, private val messageService: MessageDAO) {
+class ChatController(private val channelService: ChannelDAO, private val messageService: MessageDAO, private val userService: UserDAO) {
     @MessageMapping("/hello")
     @SendTo("/topic/hello")
     fun sendHello(message: MessageTest) : MessageOut {
@@ -41,12 +42,21 @@ class ChatController(private val channelService: ChannelDAO, private val message
         return message
     }
 
-    @PostMapping(
-            value = ["/chat/new"],
+    @GetMapping(
+            value = ["/chat/personal/{userId}/{friendId}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun newChannel(@RequestBody request: PostNewChannel): Long {
-        return channelService.addChannel(request.userIds).id!!
+    fun getPersonalChannel(@PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ChannelDTO {
+        if (userService.isPersonalChannelExist(userId, friendId))
+            return channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
+        else {
+            var user = userService.getUser(userId).name
+            var user2 = userService.getUser(friendId).name
+            var channel = ChannelDTO(null, "${user}と${user2}")
+            channelService.addChannel(channel)
+            userService.addPersonalChannel(userId, friendId, channel.id!!)
+            return channel
+        }
     }
 
     @GetMapping(

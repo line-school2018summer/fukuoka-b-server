@@ -49,6 +49,11 @@ interface UserMapper {
     @Insert("INSERT INTO friends (userId, friendId) VALUES (#{id}, #{friendId})")
     fun addFriend(id: Long, friendId: Long)
 
+    @Update("UPDATE friends SET channelId=#{channelId} WHERE (userId=#{id1} AND friendId=#{id2}) OR (userId=#{id2} AND friendId=#{id1})")
+    fun addPersonalChannel(id1: Long, id2: Long, channelId: Long)
+
+    @Select("SELECT channelId FROM friends WHERE userId=#{id1} AND friendId=#{id2}")
+    fun getPersonalChannelId(id1: Long, id2: Long): Long?
 //    @Select(
 //            """
 //        SELECT id, name, email FROM users WHERE name LIKE CONCAT('%', #{searchStr}, '%')

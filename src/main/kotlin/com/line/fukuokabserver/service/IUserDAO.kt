@@ -1,5 +1,6 @@
 package com.line.fukuokabserver.service
 
+import com.line.fukuokabserver.dto.ChannelDTO
 import com.line.fukuokabserver.dto.UserDTO
 
 interface IUserDAO {
@@ -16,4 +17,10 @@ interface IUserDAO {
     fun addFriend(id1: Long, id2: Long)
 
     fun updateUser(userId: Long, user: UserDTO)
+
+    fun addPersonalChannel(id1:Long, id2:Long, channelId: Long)
+
+    fun isPersonalChannelExist(id1: Long, id2: Long): Boolean
+
+    fun getPersonalChannelId(id1: Long, id2: Long): Long
 }
