@@ -54,6 +54,9 @@ dependencies {
 	compile("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	compile("org.jetbrains.kotlin:kotlin-reflect")
 	compile('org.mybatis.spring.boot:mybatis-spring-boot-starter:1.3.2')
+	compile('io.swagger:swagger-annotations:1.5.16')
+	compile("io.springfox:springfox-swagger2:${springBootAdminVersion}")
+	compile("io.springfox:springfox-swagger-ui:${springBootAdminVersion}")
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
