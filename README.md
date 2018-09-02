@@ -159,6 +159,7 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 | -------- | -------- | -------- |
 | userId | bigint(13) | primary |
 | friendId | bigint(13) | primary |
+| channelId | bigint(13) | nullable |
 
 
 
