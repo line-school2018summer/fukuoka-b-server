@@ -5,15 +5,7 @@ import com.line.fukuokabserver.service.UserDAO
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 
-data class UserListResponse(
-        var id: Long,
-        var name: String,
-        var email: String
-)
 
-data class PostSearchRequest(
-        val search_str: String
-)
 
 @RestController
 class UserController(private val userService: UserDAO) {
@@ -47,6 +39,23 @@ class UserController(private val userService: UserDAO) {
     )
     fun getUserByMail(@PathVariable("mail") mail:String): UserDTO {
         return userService.getUserByMail(mail)
+    }
+
+    @PostMapping(
+            value = ["/user/friend/add"]
+//            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun addFriend(@RequestBody request: PostAddFriends) {
+        userService.addFriend(request.userId, request.friendId)
+//        return request
+    }
+
+    @GetMapping(
+            value = ["/user/{id}/friends"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun getFriend(@PathVariable("id") id: Long): List<UserDTO> {
+        return userService.getFriendList(id)
     }
 //    @PostMapping(
 //            value = ["/user/search"],

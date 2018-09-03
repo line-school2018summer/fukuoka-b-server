@@ -18,4 +18,11 @@ interface ChannelMapper {
             Result(property = "name", column = "name")
     ))
     fun getPublicChannelList(): List<ChannelDTO>
+
+    @Select("SELECT * from channels WHERE id = #{channelId}")
+    @Results(value = arrayOf(
+            Result(id = true, property = "id", column = "id"),
+            Result(property = "name", column = "name")
+    ))
+    fun getChannel(channelId: Long): ChannelDTO
 }

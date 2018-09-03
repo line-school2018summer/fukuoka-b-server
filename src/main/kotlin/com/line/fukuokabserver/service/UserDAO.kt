@@ -6,6 +6,23 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserDAO (private val userMapper: UserMapper): IUserDAO {
+    override fun getPersonalChannelId(id1: Long, id2: Long): Long {
+        return userMapper.getPersonalChannelId(id1, id2)!!
+    }
+
+    override fun isPersonalChannelExist(id1: Long, id2: Long): Boolean {
+        if (userMapper.getPersonalChannelId(id1, id2) != null) return true
+        return false
+    }
+
+    override fun addPersonalChannel(id1: Long, id2: Long, channelId: Long) {
+        userMapper.addPersonalChannel(id1, id2, channelId)
+    }
+
+    override fun getUsers(ids: List<Long>): List<UserDTO> {
+        return ids.map { getUser(it) }.toList()
+    }
+
     override fun getUserByMail(mail: String): UserDTO {
         return userMapper.findByMail(mail)
     }
@@ -18,16 +35,17 @@ class UserDAO (private val userMapper: UserMapper): IUserDAO {
         return userMapper.findByUserId(userId)
     }
 
-    override fun getFriendList(userId: Long): List<String> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getFriendList(userId: Long): List<UserDTO> {
+        return userMapper.getFriends(userId)
     }
 
     override fun addUser(user: UserDTO) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
     }
 
-    override fun addFriend(id: Long, friendId: Long) {
-        userMapper.addFriend(id, friendId)
+    override fun addFriend(id1: Long, id2: Long) {
+        userMapper.addFriend(id1, id2)
+        userMapper.addFriend(id2, id1)
     }
 
     override fun updateUser(userId: Long, user: UserDTO) {

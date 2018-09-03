@@ -28,7 +28,7 @@ interface UserMapper {
     ))
     fun findByUserId(userId: String): UserDTO
 
-    @Select()
+    @Select("SELECT id, name, userId, mail FROM users WHERE id IN (SELECT friendId FROM friends WHERE userId=#{id})")
     @Results(value = arrayOf(
             Result(id = true, property = "id", column = "id"),
             Result(property = "name", column = "name"),
@@ -46,8 +46,14 @@ interface UserMapper {
     ))
     fun findByMail(mail: String): UserDTO
 
-    @Insert("INSERT INTO friends (id, friendId) VALUES (#{id}, #{friendId})")
+    @Insert("INSERT INTO friends (userId, friendId) VALUES (#{id}, #{friendId})")
     fun addFriend(id: Long, friendId: Long)
+
+    @Update("UPDATE friends SET channelId=#{channelId} WHERE (userId=#{id1} AND friendId=#{id2}) OR (userId=#{id2} AND friendId=#{id1})")
+    fun addPersonalChannel(id1: Long, id2: Long, channelId: Long)
+
+    @Select("SELECT channelId FROM friends WHERE userId=#{id1} AND friendId=#{id2}")
+    fun getPersonalChannelId(id1: Long, id2: Long): Long?
 //    @Select(
 //            """
 //        SELECT id, name, email FROM users WHERE name LIKE CONCAT('%', #{searchStr}, '%')
