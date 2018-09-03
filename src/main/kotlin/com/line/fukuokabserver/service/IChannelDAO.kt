@@ -7,7 +7,7 @@ interface IChannelDAO {
 
     fun getChannelList(userId: Long): List<ChannelDTO>
 
-    fun addChannel(userIds: List<Long>): ChannelDTO
+    fun addChannel(channel:ChannelDTO): ChannelDTO
 
     fun addChannelAttend(channelId: Long, userId: Long)
 
