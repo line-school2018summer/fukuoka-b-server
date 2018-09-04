@@ -46,16 +46,20 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["/chat/personal/{userId}/{friendId}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getPersonalChannel(@PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ChannelDTO {
-        if (userService.isPersonalChannelExist(userId, friendId))
-            return channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
+    fun getPersonalChannel(@PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ResponsePersonalChannelInfo {
+        if (userService.isPersonalChannelExist(userId, friendId)) {
+            val channel = channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
+            val friend = userService.getUser(friendId)
+            return ResponsePersonalChannelInfo(friend, channel)
+        }
         else {
-            var user = userService.getUser(userId).name
-            var user2 = userService.getUser(friendId).name
-            var channel = ChannelDTO(null, "${user}と${user2}")
+            var user = userService.getUser(userId)
+            var user2 = userService.getUser(friendId)
+            var channel = ChannelDTO(null, "${user.name}と${user2.name}", "PERSONAL")
             channelService.addChannel(channel)
             userService.addPersonalChannel(userId, friendId, channel.id!!)
-            return channel
+
+            return ResponsePersonalChannelInfo(user2, channel)
         }
     }
 
