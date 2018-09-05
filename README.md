@@ -25,6 +25,10 @@ $ sudo java -jar ./fukuoka-b-server-0.0.1-SNAPSHOT.jar
 
 - Started ApiSampleApplicationKt メッセージを確認して curl -X GET http://{AWSサーバドメイン}/user で動作確認
 
+- The Tomcat connector configured to listen on port 80 failed to start. The port may already be in use or the connector may be misconfigured.　のエラーが出た場合、下記のコマンドを実行してください
+```
+sudo kill $(sudo netstat -anp | awk '/ LISTEN / {if($4 ~ ":80$") { gsub("/.*","",$7); print $7; exit } }')
+```
 ## 動作確認
 ```
 $ curl -X GET http://{AWSサーバドメイン}/user

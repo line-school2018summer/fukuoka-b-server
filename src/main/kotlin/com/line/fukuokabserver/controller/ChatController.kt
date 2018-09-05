@@ -46,16 +46,21 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["/chat/personal/{userId}/{friendId}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getPersonalChannel(@PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ChannelDTO {
-        if (userService.isPersonalChannelExist(userId, friendId))
-            return channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
+    fun getPersonalChannel(@PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ResponseChannelInfo {
+        if (userService.isPersonalChannelExist(userId, friendId)) {
+            val channel = channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
+            val friend = userService.getUser(friendId)
+            val me = userService.getUser(userId)
+            return ResponseChannelInfo(listOf(friend, me), channel)
+        }
         else {
-            var user = userService.getUser(userId).name
-            var user2 = userService.getUser(friendId).name
-            var channel = ChannelDTO(null, "${user}と${user2}")
-            channelService.addChannel(channel)
+            var user = userService.getUser(userId)
+            var user2 = userService.getUser(friendId)
+            var channel = ChannelDTO(null, "${user.name}と${user2.name}", "PERSONAL")
+            channelService.addChannel(channel, listOf(user.Id, user2.Id))
             userService.addPersonalChannel(userId, friendId, channel.id!!)
-            return channel
+
+            return ResponseChannelInfo(listOf(user2, user), channel)
         }
     }
 
@@ -73,5 +78,35 @@ class ChatController(private val channelService: ChannelDAO, private val message
     )
     fun getMessages(@PathVariable("channelId") channelId: Long): List<MessageDTO> {
         return messageService.getChannelMessages(channelId)
+    }
+
+    @PostMapping(
+            value = ["/chat/group/new"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun newGroupChannel(@RequestBody request: PostNewGroup): ResponseChannelInfo {
+        var channel = ChannelDTO(null, "NOT YET", "GROUP")
+        channelService.addChannel(channel, request.userIds)
+        val users = userService.getUsers(request.userIds)
+        return ResponseChannelInfo(users, channel)
+    }
+
+    @GetMapping(
+            value = ["chat/{channelId}/info"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun getChannelInfo(@PathVariable("channelId") channelId: Long): ResponseChannelInfo {
+        val channel = channelService.getChannel(channelId)
+        val users = channelService.getChannelAttendees(channelId)
+        return ResponseChannelInfo(users, channel)
+    }
+
+
+    @GetMapping(
+            value = ["chat/{userId}/channels"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun getChannelsByUser(@PathVariable("userId") userId: Long): List<ChannelDTO> {
+        return channelService.getChannelList(userId)
     }
 }

@@ -18,3 +18,7 @@ data class PostAddFriends (
         val userId: Long,
         val friendId: Long
 )
+
+data class PostNewGroup (
+        val userIds: List<Long>
+)

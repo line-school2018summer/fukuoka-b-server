@@ -10,7 +10,7 @@ interface MessageMapper {
     @Options(useGeneratedKeys = true)
     fun addMessage(message: MessageDTO)
 
-    @Select("SELECT id, channelId, senderId, content, createdAt FROM messages")
+    @Select("SELECT id, channelId, senderId, content, createdAt FROM messages WHERE channelId=#{channelId}")
     @Results(value = arrayOf(
             Result(id = true, property = "id", column = "id"),
             Result(property = "channelId", column = "channelId"),

@@ -46,8 +46,8 @@ class UserController(private val userService: UserDAO) {
 //            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
     fun addFriend(@RequestBody request: PostAddFriends) {
+//        TODOcheck already added friends
         userService.addFriend(request.userId, request.friendId)
-//        return request
     }
 
     @GetMapping(

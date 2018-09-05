@@ -59,6 +59,7 @@ dependencies {
 	compile("io.springfox:springfox-swagger-ui:${springBootAdminVersion}")
 	runtime('mysql:mysql-connector-java')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+	compile "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.6"
 }
 
 dependencyManagement {
