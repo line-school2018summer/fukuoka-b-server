@@ -1,6 +1,7 @@
 package com.line.fukuokabserver.mapper
 
 import com.line.fukuokabserver.dto.ChannelDTO
+import com.line.fukuokabserver.dto.UserDTO
 import org.apache.ibatis.annotations.*
 
 @Mapper
@@ -27,4 +28,15 @@ interface ChannelMapper {
             Result(property = "type", column = "type")
     ))
     fun getChannel(channelId: Long): ChannelDTO
+
+    @Select("SELECT * from channels WHERE id IN (SELECT channelId FROM channelAttend WHERE userId = #{userId})")
+    @Results(value = arrayOf(
+            Result(id = true, property = "id", column = "id"),
+            Result(property = "name", column = "name"),
+            Result(property = "type", column = "type")
+    ))
+    fun getAttendedChannels(userId: Long): List<ChannelDTO>
+
+    @Select("SELECT * FROM users WHERE id IN (SELECT userId FROM channelAttend WHERE channelId = #{channelId})")
+    fun getChannelAttendees(channelId: Long): List<UserDTO>
 }

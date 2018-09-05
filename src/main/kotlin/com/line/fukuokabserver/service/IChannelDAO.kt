@@ -1,6 +1,7 @@
 package com.line.fukuokabserver.service
 
 import com.line.fukuokabserver.dto.ChannelDTO
+import com.line.fukuokabserver.dto.UserDTO
 
 interface IChannelDAO {
     fun getChannel(channelId: Long): ChannelDTO
@@ -12,4 +13,6 @@ interface IChannelDAO {
     fun addChannelAttend(channelId: Long, userId: Long)
 
     fun getPublicChannel(): List<ChannelDTO>
+
+    fun getChannelAttendees(channelId: Long): List<UserDTO>
 }
