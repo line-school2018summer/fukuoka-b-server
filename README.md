@@ -147,6 +147,8 @@ $ curl -X GET http://{AWSサーバドメイン}/user/1/profile
 | -------- | -------- | -------- |
 | id | bigint(13) | primary |
 | name | varchar(255) |  |
+| type | varchar(255) |  |
+
 
 #### Table `channelAttend`
 | Column Name | Type | Description |
