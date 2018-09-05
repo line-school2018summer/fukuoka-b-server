@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChannelDAO (private val channelMapper: ChannelMapper): IChannelDAO {
-    override fun addChannel(channel: ChannelDTO): ChannelDTO {
+    override fun addChannel(channel: ChannelDTO, userIds: List<Long>): ChannelDTO {
         channelMapper.addChannel(channel)
-//        userIds.forEach { id ->
-//            channelMapper.addChannelAttend(channel.id!!, id)
-//        }
+        userIds.forEach { id ->
+            channelMapper.addChannelAttend(channel.id!!, id)
+        }
         return channel
     }
 

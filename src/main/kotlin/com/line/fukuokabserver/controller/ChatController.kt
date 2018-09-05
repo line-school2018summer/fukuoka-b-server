@@ -56,7 +56,7 @@ class ChatController(private val channelService: ChannelDAO, private val message
             var user = userService.getUser(userId)
             var user2 = userService.getUser(friendId)
             var channel = ChannelDTO(null, "${user.name}と${user2.name}", "PERSONAL")
-            channelService.addChannel(channel)
+            channelService.addChannel(channel, listOf(user.Id, user2.Id))
             userService.addPersonalChannel(userId, friendId, channel.id!!)
 
             return ResponsePersonalChannelInfo(user2, channel)
@@ -77,5 +77,16 @@ class ChatController(private val channelService: ChannelDAO, private val message
     )
     fun getMessages(@PathVariable("channelId") channelId: Long): List<MessageDTO> {
         return messageService.getChannelMessages(channelId)
+    }
+
+    @PostMapping(
+            value = ["/chat/group/new"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun newGroupChannel(@RequestBody request: PostNewGroup): ResponseGroupChannelInfo {
+        var channel = ChannelDTO(null, "NOT YET", "GROUP")
+        channelService.addChannel(channel, request.userIds)
+        val users = userService.getUsers(request.userIds)
+        return ResponseGroupChannelInfo(users, channel)
     }
 }

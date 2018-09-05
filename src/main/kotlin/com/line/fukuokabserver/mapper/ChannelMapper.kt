@@ -5,7 +5,7 @@ import org.apache.ibatis.annotations.*
 
 @Mapper
 interface ChannelMapper {
-    @Insert("INSERT INTO channels (name) VALUES (#{name})" )
+    @Insert("INSERT INTO channels (name, type) VALUES (#{name}, #{type})" )
     @Options(useGeneratedKeys = true)
     fun addChannel(channel: ChannelDTO): Int
 
