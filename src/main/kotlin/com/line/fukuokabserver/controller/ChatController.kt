@@ -85,9 +85,14 @@ class ChatController(private val channelService: ChannelDAO, private val message
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
     fun newGroupChannel(@RequestBody request: PostNewGroup): ResponseChannelInfo {
-        var channel = ChannelDTO(null, "NOT YET", "GROUP")
-        channelService.addChannel(channel, request.userIds)
         val users = userService.getUsers(request.userIds)
+        var defaultName = ""
+        for (i in 0..users.size-1) {
+            defaultName += users[i].name
+            if (i != users.size-1) defaultName += ", "
+        }
+        var channel = ChannelDTO(null, defaultName, "GROUP")
+        channelService.addChannel(channel, request.userIds)
         return ResponseChannelInfo(users, channel)
     }
 
