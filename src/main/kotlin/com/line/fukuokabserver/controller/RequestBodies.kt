@@ -22,3 +22,9 @@ data class PostAddFriends (
 data class PostNewGroup (
         val userIds: List<Long>
 )
+
+data class PostUpdateName (
+        //Cliend側のRESTのHashmapのデータ型の都合でidがString型になっています
+        var id: String,
+        var name: String
+)
