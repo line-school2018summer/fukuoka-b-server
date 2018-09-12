@@ -1,5 +1,6 @@
 package com.line.fukuokabserver.controller
 
+import com.line.fukuokabserver.Auth.Auth
 import com.line.fukuokabserver.dto.UserDTO
 import com.line.fukuokabserver.service.UserDAO
 import org.springframework.http.MediaType
@@ -8,9 +9,9 @@ import org.springframework.web.bind.annotation.*
 
 
 @RestController
-class UserController(private val userService: UserDAO) {
+class UserController(private val userService: UserDAO, private val auth: Auth) {
     @GetMapping(
-            value = ["/user"],
+            value = ["/test"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
     fun hello(): String{
@@ -18,10 +19,20 @@ class UserController(private val userService: UserDAO) {
     }
 
     @GetMapping(
+            value = ["/user"],
+            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
+    )
+    fun test(@RequestHeader(value = "Token", required = true) token: String): UserDTO{
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
+        return UserDTO(1, "me", token, "")
+    }
+
+    @GetMapping(
             value = ["/user/{id}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getUser(@PathVariable("id" ) id: Long): UserDTO {
+    fun getUser(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("id" ) id: Long): UserDTO {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return userService.getUser(id)
     }
 
@@ -29,7 +40,8 @@ class UserController(private val userService: UserDAO) {
             value = ["/user/userId/{userId}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getUserByUserId(@PathVariable("userId" ) userId: String): UserDTO {
+    fun getUserByUserId(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("userId" ) userId: String): UserDTO {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return userService.getUserByUserId(userId)
     }
 
@@ -37,7 +49,8 @@ class UserController(private val userService: UserDAO) {
             value = ["/user/id/{mail}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getUserByMail(@PathVariable("mail") mail:String): UserDTO {
+    fun getUserByMail(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("mail") mail:String): UserDTO {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return userService.getUserByMail(mail)
     }
 
@@ -45,7 +58,8 @@ class UserController(private val userService: UserDAO) {
             value = ["/user/friend/add"]
 //            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun addFriend(@RequestBody request: PostAddFriends) {
+    fun addFriend(@RequestHeader(value = "Token", required = true) token: String, @RequestBody request: PostAddFriends) {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
 //        TODOcheck already added friends
         userService.addFriend(request.userId, request.friendId)
     }
@@ -54,7 +68,8 @@ class UserController(private val userService: UserDAO) {
             value = ["/user/{id}/friends"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getFriend(@PathVariable("id") id: Long): List<UserDTO> {
+    fun getFriend(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("id") id: Long): List<UserDTO> {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return userService.getFriendList(id)
     }
 //    @PostMapping(

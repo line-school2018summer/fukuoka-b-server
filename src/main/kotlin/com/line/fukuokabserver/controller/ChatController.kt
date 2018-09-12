@@ -1,5 +1,6 @@
 package com.line.fukuokabserver.controller
 
+import com.line.fukuokabserver.Auth.Auth
 import com.line.fukuokabserver.dto.ChannelDTO
 import com.line.fukuokabserver.dto.MessageDTO
 import com.line.fukuokabserver.entity.MessageOut
@@ -19,7 +20,7 @@ import java.util.*
 
 @Controller
 @RestController
-class ChatController(private val channelService: ChannelDAO, private val messageService: MessageDAO, private val userService: UserDAO) {
+class ChatController(private val channelService: ChannelDAO, private val messageService: MessageDAO, private val userService: UserDAO, val auth: Auth) {
     @MessageMapping("/hello")
     @SendTo("/topic/hello")
     fun sendHello(message: MessageTest) : MessageOut {
@@ -46,7 +47,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["/chat/personal/{userId}/{friendId}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getPersonalChannel(@PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ResponseChannelInfo {
+    fun getPersonalChannel(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("userId") userId:Long, @PathVariable("friendId") friendId: Long): ResponseChannelInfo {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         if (userService.isPersonalChannelExist(userId, friendId)) {
             val channel = channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
             val friend = userService.getUser(friendId)
@@ -68,7 +70,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value=["/chat/public"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun publicChannel(): List<ChannelDTO> {
+    fun publicChannel(@RequestHeader(value = "Token", required = true) token: String): List<ChannelDTO> {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return channelService.getPublicChannel()
     }
 
@@ -76,7 +79,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["/chat/messages/{channelId}"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getMessages(@PathVariable("channelId") channelId: Long): List<MessageDTO> {
+    fun getMessages(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("channelId") channelId: Long): List<MessageDTO> {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return messageService.getChannelMessages(channelId)
     }
 
@@ -84,7 +88,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["/chat/group/new"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun newGroupChannel(@RequestBody request: PostNewGroup): ResponseChannelInfo {
+    fun newGroupChannel(@RequestHeader(value = "Token", required = true) token: String, @RequestBody request: PostNewGroup): ResponseChannelInfo {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         val users = userService.getUsers(request.userIds)
         var defaultName = ""
         for (i in 0..users.size-1) {
@@ -100,7 +105,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["chat/{channelId}/info"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getChannelInfo(@PathVariable("channelId") channelId: Long): ResponseChannelInfo {
+    fun getChannelInfo(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("channelId") channelId: Long): ResponseChannelInfo {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         val channel = channelService.getChannel(channelId)
         val users = channelService.getChannelAttendees(channelId)
         return ResponseChannelInfo(users, channel)
@@ -111,7 +117,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             value = ["chat/{userId}/channels"],
             produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]
     )
-    fun getChannelsByUser(@PathVariable("userId") userId: Long): List<ChannelDTO> {
+    fun getChannelsByUser(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("userId") userId: Long): List<ChannelDTO> {
+        val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return channelService.getChannelList(userId)
     }
 }
