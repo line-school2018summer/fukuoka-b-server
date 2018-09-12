@@ -48,7 +48,7 @@ class UserDAO (private val userMapper: UserMapper): IUserDAO {
         userMapper.addFriend(id2, id1)
     }
 
-    override fun updateUser(userId: Long, user: UserDTO) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun updateUser(user: UserDTO) {
+        userMapper.updateUser(user)
     }
 }

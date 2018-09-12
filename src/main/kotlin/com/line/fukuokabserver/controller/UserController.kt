@@ -57,6 +57,16 @@ class UserController(private val userService: UserDAO) {
     fun getFriend(@PathVariable("id") id: Long): List<UserDTO> {
         return userService.getFriendList(id)
     }
+
+    @PostMapping(
+            value = ["user/{id}/update"]
+    )
+    fun updateUser(@RequestBody request: PostUpdateName){
+        //Cliend側のRESTのHashmapのデータ型の都合でrequest.idがString型になっているのでLong型に戻しています
+        val user = userService.getUser(request.id.toLong())
+        user.name = request.name
+        return userService.updateUser(user)
+    }
 //    @PostMapping(
 //            value = ["/user/search"],
 //            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]

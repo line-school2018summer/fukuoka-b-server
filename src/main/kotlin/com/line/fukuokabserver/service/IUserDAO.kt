@@ -16,7 +16,7 @@ interface IUserDAO {
 
     fun addFriend(id1: Long, id2: Long)
 
-    fun updateUser(userId: Long, user: UserDTO)
+    fun updateUser(user: UserDTO)
 
     fun addPersonalChannel(id1:Long, id2:Long, channelId: Long)
 

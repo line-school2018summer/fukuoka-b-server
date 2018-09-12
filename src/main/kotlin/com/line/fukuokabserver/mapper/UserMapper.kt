@@ -54,6 +54,9 @@ interface UserMapper {
 
     @Select("SELECT channelId FROM friends WHERE userId=#{id1} AND friendId=#{id2}")
     fun getPersonalChannelId(id1: Long, id2: Long): Long?
+
+    @Update("UPDATE users SET name=#{name} WHERE id=#{id}")
+    fun updateUser(userDTO: UserDTO)
 //    @Select(
 //            """
 //        SELECT id, name, email FROM users WHERE name LIKE CONCAT('%', #{searchStr}, '%')
