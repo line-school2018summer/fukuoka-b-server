@@ -121,4 +121,13 @@ class ChatController(private val channelService: ChannelDAO, private val message
         val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return channelService.getChannelList(userId)
     }
+
+    @PostMapping(
+            value = ["chat/{channelId}/update/name"]
+    )
+    fun updateChannelName(@PathVariable("channelId") channelId: Long, @RequestBody request: PostUpdateChannelName) {
+        var channel = channelService.getChannel(channelId)
+        channel.name = request.name
+        channelService.updateChannel(channel)
+    }
 }

@@ -7,6 +7,10 @@ import org.springframework.stereotype.Service
 
 @Service
 class ChannelDAO (private val channelMapper: ChannelMapper): IChannelDAO {
+    override fun updateChannel(channel: ChannelDTO) {
+        channelMapper.updateChannel(channel)
+    }
+
     override fun getChannelAttendees(channelId: Long): List<UserDTO> {
         return channelMapper.getChannelAttendees(channelId)
     }

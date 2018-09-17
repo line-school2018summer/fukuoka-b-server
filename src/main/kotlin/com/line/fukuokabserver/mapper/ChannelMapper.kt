@@ -39,4 +39,7 @@ interface ChannelMapper {
 
     @Select("SELECT * FROM users WHERE id IN (SELECT userId FROM channelAttend WHERE channelId = #{channelId})")
     fun getChannelAttendees(channelId: Long): List<UserDTO>
+
+    @Update("UPDATE channels SET name=#{name}, type=#{type} WHERE id=#{id}")
+    fun updateChannel(channel: ChannelDTO)
 }
