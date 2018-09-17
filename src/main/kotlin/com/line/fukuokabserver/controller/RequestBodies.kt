@@ -13,8 +13,9 @@ data class PostNewGroup (
         val userIds: List<Long>
 )
 
-data class PostUpdateName (
+data class PostUpdateUser (
         //Cliend側のRESTのHashmapのデータ型の都合でidがString型になっています
         var id: String,
-        var name: String
+        var name: String,
+        val hitokoto: String
 )

@@ -4,5 +4,6 @@ data class UserDTO (
         var Id: Long,
         var name: String,
         var userId: String,
-        var mail: String
+        var mail: String,
+        var hitokoto: String?
 )
