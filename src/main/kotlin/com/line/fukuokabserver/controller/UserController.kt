@@ -24,7 +24,7 @@ class UserController(private val userService: UserDAO, private val auth: Auth) {
     )
     fun test(@RequestHeader(value = "Token", required = true) token: String): UserDTO{
         val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
-        return UserDTO(1, "me", token, "")
+        return UserDTO(1, "me", token, "", "")
     }
 
     @GetMapping(
@@ -76,12 +76,14 @@ class UserController(private val userService: UserDAO, private val auth: Auth) {
     @PostMapping(
             value = ["user/{id}/update"]
     )
-    fun updateUser(@RequestBody request: PostUpdateName){
+    fun updateUser(@RequestBody request: PostUpdateUser){
         //Cliend側のRESTのHashmapのデータ型の都合でrequest.idがString型になっているのでLong型に戻しています
         val user = userService.getUser(request.id.toLong())
         user.name = request.name
+        user.hitokoto = request.hitokoto
         return userService.updateUser(user)
     }
+
 //    @PostMapping(
 //            value = ["/user/search"],
 //            produces = [(MediaType.APPLICATION_JSON_UTF8_VALUE)]

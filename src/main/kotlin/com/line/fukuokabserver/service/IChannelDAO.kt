@@ -15,4 +15,6 @@ interface IChannelDAO {
     fun getPublicChannel(): List<ChannelDTO>
 
     fun getChannelAttendees(channelId: Long): List<UserDTO>
+
+    fun updateChannel(channel: ChannelDTO)
 }

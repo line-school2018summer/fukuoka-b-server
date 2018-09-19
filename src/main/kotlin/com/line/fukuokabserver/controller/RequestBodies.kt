@@ -1,17 +1,7 @@
 package com.line.fukuokabserver.controller
 
-data class UserListResponse(
-        var id: Long,
-        var name: String,
-        var email: String
-)
-
-data class PostSearchRequest(
-        val search_str: String
-)
-
-data class PostNewChannel (
-        val userIds: List<Long>
+data class PostUpdateChannelName (
+        val name: String
 )
 
 data class PostAddFriends (
@@ -23,8 +13,9 @@ data class PostNewGroup (
         val userIds: List<Long>
 )
 
-data class PostUpdateName (
+data class PostUpdateUser (
         //Cliend側のRESTのHashmapのデータ型の都合でidがString型になっています
         var id: String,
-        var name: String
+        var name: String,
+        val hitokoto: String
 )

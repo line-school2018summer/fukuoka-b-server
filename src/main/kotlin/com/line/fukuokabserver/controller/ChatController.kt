@@ -53,7 +53,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
             val channel = channelService.getChannel(userService.getPersonalChannelId(userId, friendId))
             val friend = userService.getUser(friendId)
             val me = userService.getUser(userId)
-            return ResponseChannelInfo(listOf(friend, me), channel)
+            val messages = messageService.getChannelMessages(channel.id!!)
+            return ResponseChannelInfo(listOf(friend, me), channel, messages)
         }
         else {
             var user = userService.getUser(userId)
@@ -61,8 +62,7 @@ class ChatController(private val channelService: ChannelDAO, private val message
             var channel = ChannelDTO(null, "${user.name}と${user2.name}", "PERSONAL")
             channelService.addChannel(channel, listOf(user.Id, user2.Id))
             userService.addPersonalChannel(userId, friendId, channel.id!!)
-
-            return ResponseChannelInfo(listOf(user2, user), channel)
+            return ResponseChannelInfo(listOf(user2, user), channel, emptyList())
         }
     }
 
@@ -98,7 +98,7 @@ class ChatController(private val channelService: ChannelDAO, private val message
         }
         var channel = ChannelDTO(null, defaultName, "GROUP")
         channelService.addChannel(channel, request.userIds)
-        return ResponseChannelInfo(users, channel)
+        return ResponseChannelInfo(users, channel, emptyList())
     }
 
     @GetMapping(
@@ -109,7 +109,8 @@ class ChatController(private val channelService: ChannelDAO, private val message
         val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         val channel = channelService.getChannel(channelId)
         val users = channelService.getChannelAttendees(channelId)
-        return ResponseChannelInfo(users, channel)
+        val messages = messageService.getChannelMessages(channelId)
+        return ResponseChannelInfo(users, channel, messages)
     }
 
 
@@ -120,5 +121,14 @@ class ChatController(private val channelService: ChannelDAO, private val message
     fun getChannelsByUser(@RequestHeader(value = "Token", required = true) token: String, @PathVariable("userId") userId: Long): List<ChannelDTO> {
         val uid = auth.verifyIdToken(token) ?: throw UnauthorizedException("Invalod Token")
         return channelService.getChannelList(userId)
+    }
+
+    @PostMapping(
+            value = ["chat/{channelId}/update/name"]
+    )
+    fun updateChannelName(@PathVariable("channelId") channelId: Long, @RequestBody request: PostUpdateChannelName) {
+        var channel = channelService.getChannel(channelId)
+        channel.name = request.name
+        channelService.updateChannel(channel)
     }
 }
